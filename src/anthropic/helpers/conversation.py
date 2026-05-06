@@ -20,12 +20,12 @@ Example::
 
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Any
 
 
 class ConversationManager:
     """Manages multi-turn conversation history with automatic context window management.
-    
+
     Maintains conversation state across turns and automatically truncates the oldest
     messages when approaching the model's context window limit.
     """
@@ -42,7 +42,7 @@ class ConversationManager:
         accurate_token_counting: bool = False,
     ) -> None:
         """Initialize ConversationManager.
-        
+
         Args:
             client: An Anthropic client instance.
             model: The model to use for API calls (e.g., "claude-3-5-sonnet-20241022").
@@ -54,7 +54,7 @@ class ConversationManager:
             accurate_token_counting: If True, use client.messages.count_tokens() for
                 accurate truncation decisions. If False (default), use heuristic based
                 on last_usage.
-                
+
         Raises:
             ValueError: If model is empty, max_tokens < 1, context_window_limit < 1,
                 or token_budget_headroom not in [0.0, 1.0).
@@ -80,10 +80,10 @@ class ConversationManager:
 
     def add_user_message(self, content: str | list[Any]) -> None:
         """Add a user message to the conversation history.
-        
+
         Args:
             content: String message or list of content blocks.
-            
+
         Raises:
             ValueError: If content is empty.
         """
@@ -104,14 +104,14 @@ class ConversationManager:
 
     def get_response(self, content: str | list[Any] | None = None, **kwargs: Any) -> Any:
         """Get an assistant response, optionally adding a user message first.
-        
+
         Args:
             content: Optional user message to add before getting response.
             **kwargs: Additional keyword arguments to pass to messages.create().
-            
+
         Returns:
             The Message response from the API.
-            
+
         Raises:
             ValueError: If no user message is staged (last message is not from user).
         """
@@ -233,7 +233,7 @@ class ConversationManager:
 
 class AsyncConversationManager:
     """Async version of ConversationManager for managing multi-turn conversations.
-    
+
     Maintains conversation state across turns and automatically truncates the oldest
     messages when approaching the model's context window limit.
     """
@@ -250,7 +250,7 @@ class AsyncConversationManager:
         accurate_token_counting: bool = False,
     ) -> None:
         """Initialize AsyncConversationManager.
-        
+
         Args:
             client: An async Anthropic client instance.
             model: The model to use for API calls (e.g., "claude-3-5-sonnet-20241022").
@@ -262,7 +262,7 @@ class AsyncConversationManager:
             accurate_token_counting: If True, use client.messages.count_tokens() for
                 accurate truncation decisions. If False (default), use heuristic based
                 on last_usage.
-                
+
         Raises:
             ValueError: If model is empty, max_tokens < 1, context_window_limit < 1,
                 or token_budget_headroom not in [0.0, 1.0).
@@ -288,10 +288,10 @@ class AsyncConversationManager:
 
     def add_user_message(self, content: str | list[Any]) -> None:
         """Add a user message to the conversation history.
-        
+
         Args:
             content: String message or list of content blocks.
-            
+
         Raises:
             ValueError: If content is empty.
         """
@@ -312,14 +312,14 @@ class AsyncConversationManager:
 
     async def get_response(self, content: str | list[Any] | None = None, **kwargs: Any) -> Any:
         """Get an assistant response, optionally adding a user message first.
-        
+
         Args:
             content: Optional user message to add before getting response.
             **kwargs: Additional keyword arguments to pass to messages.create().
-            
+
         Returns:
             The Message response from the API.
-            
+
         Raises:
             ValueError: If no user message is staged (last message is not from user).
         """
