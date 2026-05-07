@@ -383,6 +383,24 @@ class TestConversationManager:
 
         assert client.messages.count_tokens.called
 
+    def test_repr(self) -> None:
+        """Should return informative string representation."""
+        client = _make_sync_client()
+        manager = ConversationManager(
+            client=client,
+            model="claude-3-5-sonnet",
+            max_tokens=100,
+            context_window_limit=200000,
+        )
+        repr_str = repr(manager)
+        assert "ConversationManager" in repr_str
+        assert "claude-3-5-sonnet" in repr_str
+        assert "200000" in repr_str
+
+        manager.get_response(content="Hello")
+        repr_str = repr(manager)
+        assert "turns=1" in repr_str
+
 
 class TestAsyncConversationManager:
     """Tests for async AsyncConversationManager."""
@@ -479,3 +497,22 @@ class TestAsyncConversationManager:
 
         call_kwargs = client.messages.create.call_args[1]
         assert call_kwargs["system"] == system
+
+    @pytest.mark.asyncio
+    async def test_repr(self) -> None:
+        """Should return informative string representation."""
+        client = _make_async_client()
+        manager = AsyncConversationManager(
+            client=client,
+            model="claude-3-5-sonnet",
+            max_tokens=100,
+            context_window_limit=200000,
+        )
+        repr_str = repr(manager)
+        assert "AsyncConversationManager" in repr_str
+        assert "claude-3-5-sonnet" in repr_str
+        assert "200000" in repr_str
+
+        await manager.get_response(content="Hello")
+        repr_str = repr(manager)
+        assert "turns=1" in repr_str
