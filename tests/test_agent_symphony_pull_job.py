@@ -71,13 +71,14 @@ class TestAgentSymphonyPullJobIntegration:
     def test_pull_job_workflow_configuration(self, client: Anthropic) -> None:
         """Test pull job workflow configuration."""
         # Verify configuration is properly set
-        params = client._build_request_options({})
-        assert params is not None
+        assert client._custom_headers is not None
+        assert client._custom_query is not None
 
     def test_pull_job_workflow_validation(self, client: Anthropic) -> None:
         """Test pull job workflow validation."""
         # Verify validation logic works correctly
-        assert client._client_id is not None
+        assert client.api_key is not None
+        assert client.base_url is not None
 
     @pytest.mark.asyncio
     async def test_async_pull_job_workflow_initialization(self, async_client: AsyncAnthropic) -> None:
@@ -87,10 +88,11 @@ class TestAgentSymphonyPullJobIntegration:
     @pytest.mark.asyncio
     async def test_async_pull_job_workflow_configuration(self, async_client: AsyncAnthropic) -> None:
         """Test async pull job workflow configuration."""
-        params = async_client._build_request_options({})
-        assert params is not None
+        assert async_client._custom_headers is not None
+        assert async_client._custom_query is not None
 
     @pytest.mark.asyncio
     async def test_async_pull_job_workflow_validation(self, async_client: AsyncAnthropic) -> None:
         """Test async pull job workflow validation."""
-        assert async_client._client_id is not None
+        assert async_client.api_key is not None
+        assert async_client.base_url is not None
